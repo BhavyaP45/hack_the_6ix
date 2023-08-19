@@ -11,8 +11,7 @@
     
 {% block content %}
 {% for task in tasks %}
-<p>{{ task['title'] }}</p>
-    <p>{{ task['descriptionText'] }}</p>
+<p>{{ task.title }}</p>
 {% endfor %}
 {% endblock %}
 

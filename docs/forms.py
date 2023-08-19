@@ -18,7 +18,7 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email_address = address_to_check.data).first()
 
         if user:
-            raise ValidationError("Email already used!")    
+            raise ValidationError("Email already used!")   #Creates an error that will be used in the flash messages for validators 
         
     username = StringField(label = "Username", validators = [Length(min=2, max=30), DataRequired()])
     email_address = StringField(label = "Email", validators = [Email(), DataRequired()])

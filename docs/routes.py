@@ -1,7 +1,7 @@
 
 from docs import app, Flask, sqlite3, request, render_template, redirect, db, url_for, flash, login_user, logout_user, bcrypt, current_user
 from docs.forms import RegisterForm, LoginForm
-from docs.models import User
+from docs.models import User, Task
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -93,16 +93,31 @@ def announcements_create_page():
     return render_template("createAnnouncement.html")
 
 
+@app.route("/assignTasks", methods=['POST', 'GET'])
+def assign_tasks_page():
+    if request.method == "POST":
+        user_name = request.form["nameBox"]
+        email = request.form["emailBox"]
+        title = request.form["taskName"]
+        
+        assigned_user =  User.query.filter_by(username = user_name).first()
+        if assigned_user:
+            task = Task(assigned_to = assigned_user.id, title = title)
+            with app.app_context():
+                db.session.add(task)
+                db.session.commit()
+            flash("Success", category= "success")
+
+        return redirect(url_for("tasks_page"))
+    
+    return render_template("create_task.html")
+        
 
 @app.route("/tasks", methods=['POST', 'GET'])
 def tasks_page():
-
-    conn = get_db_connection()
-    tasks = conn.execute('SELECT * FROM tasks').fetchall()
-    conn.close()           
-    return render_template("tasks.html",tasks = tasks)
+    tasks = Task.query.filter_by(assigned_to = current_user.id)
+    return render_template("tasks.html", tasks = tasks)
 
 @app.route("/checkin", methods=['POST', 'GET'])
 def checkin_page():
-    
     return render_template("checkin.html")
