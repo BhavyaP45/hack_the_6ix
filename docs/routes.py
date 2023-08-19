@@ -1,12 +1,26 @@
-from docs import app, Flask, redirect, url_for, request, render_template, flash
+from docs import app, Flask, redirect, url_for, request, render_template, flash, sqlite3
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
 
 @app.route("/announcements", methods=['POST', 'GET'])
 def announcements_page():
-    
-    if request.method == 'POST':
-        announcementText = request.form['chatBox']
+    if request.method == "POST":
+        announcementText = request.form["chatBox"]
+        conn = get_db_connection()
+        conn.execute('INSERT INTO announcements (announcementText) VALUES (?)',
+                        (announcementText,))
+        conn.commit()
+        conn.close()
+
+    conn = get_db_connection()
+    announcements = conn.execute('SELECT * FROM announcements').fetchall()
+    conn.close()   
         
-    return render_template("announcements.html")
+    return render_template("announcements.html", announcements = announcements)
 
 
 @app.route("/dashboard", methods=['POST', 'GET'])
