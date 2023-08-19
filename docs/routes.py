@@ -11,8 +11,6 @@ def announcements_page():
 
 @app.route("/dashboard", methods=['POST', 'GET'])
 def announcements_page():
-    
-        
     return render_template("dashboard.html")
 
 
