@@ -11,6 +11,7 @@
     
 {% block content %}
 {% for announcement in announcements %}
+<p>{{ announcement['title'] }}</p>
     <p>{{ announcement['announcementText'] }}</p>
 {% endfor %}
 {% endblock %}

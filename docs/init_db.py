@@ -8,8 +8,8 @@ with open('docs\schema.sql') as f:
 
 cur = connection.cursor()
 
-cur.execute("INSERT INTO announcements (announcementText) VALUES (?)",
-            ("Here you can put announcements!",)
+cur.execute("INSERT INTO announcements (title, announcementText) VALUES (?, ?)",
+            ("First Announcement!","Here you can put announcements!")
             )
 
 connection.commit()

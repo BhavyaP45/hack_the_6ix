@@ -9,10 +9,11 @@ def get_db_connection():
 @app.route("/announcements", methods=['POST', 'GET'])
 def announcements_page():
     if request.method == "POST":
+        title = request.form["titleBox"]
         announcementText = request.form["chatBox"]
         conn = get_db_connection()
-        conn.execute('INSERT INTO announcements (announcementText) VALUES (?)',
-                        (announcementText,))
+        conn.execute('INSERT INTO announcements (title, announcementText) VALUES (?,?)',
+                        (title, announcementText))
         conn.commit()
         conn.close()
 
