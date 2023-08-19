@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block head %} 
+{% endblock %}
+
+{% block body %}
+{% if current_user.is_authenticated %} 
+<p>Amogus</p>
+
+{% else %}
+<p>Sus</p>
+{% endif %}
+{% endblock %}
