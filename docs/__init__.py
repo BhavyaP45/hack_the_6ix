@@ -1,5 +1,5 @@
 #Import modules and libraries that will be used throughout the different files
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_bcrypt import Bcrypt

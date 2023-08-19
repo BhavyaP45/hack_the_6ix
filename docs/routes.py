@@ -1,5 +1,5 @@
-from docs import app, Flask, redirect, url_for, request, render_template, flash, sqlite3
-from docs import app, render_template, redirect, db, url_for, flash, login_user, logout_user, bcrypt, current_user
+
+from docs import app, Flask, sqlite3, request, render_template, redirect, db, url_for, flash, login_user, logout_user, bcrypt, current_user
 from docs.forms import RegisterForm, LoginForm
 from docs.models import User
 
@@ -88,10 +88,6 @@ def announcements_create_page():
         
     return render_template("createAnnouncement.html")
 
-
-@app.route("/dashboard", methods=['POST', 'GET'])
-def dashboard_page():
-    return render_template("dashboard.html")
 
 
 @app.route("/tasks", methods=['POST', 'GET'])
