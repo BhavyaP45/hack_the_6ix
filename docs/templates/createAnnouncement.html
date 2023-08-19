@@ -22,7 +22,7 @@
     <div class="flex flex-row h-screen"> <!--Entire container for website-->
         <div class="bg-white rounded-3xl border-solid border-8 m-2 w-1/4 p-6 flex flex-col"> <!--Left box-->
             <div class="flex flex-row">
-                <img src="{{url_for('static', filename='/images/EmpowerULogo.svg')}}"  alt="EmpowerU Logo"> <!--EmpowerU Logo-->      
+                <img src="{{url_for('static', filename='/images/EmpowerULogo.svg')}}"  alt="EmpowerU Logo"> <!--EmpowerU Logo-->
                 <h1 class="text-xl font-bold ml-6">EmpowerU</h1> <!--EmpowerU Title-->
             </div>
             <div class="flex flex-row">
@@ -52,27 +52,22 @@
             </div>
             <button class="rounded-full h-10 bg-yellow-200 mt-auto">Log In</button>
         </div>
-        <div class="ml-4 mt-6 h-screen w-3/4 flex flex-col"> <!--Right-side of page container for announcements-->
-            <h1 class="text-5xl font-bold">Dashboard</h1> <!--Announcements title-->
+        <form method = "post">
+        <div class="flex flex-col">
             <div class="flex flex-row">
-                <input type="text" id="fname" value="Search Announcements" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-8/12"> <!--Search announcements input text box-->
-                <a href="/announcements-create"><div class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl h-12 border-black w-36 text-center">+</div></a> <!--Plus button-->
-            </div>
-            <div class="overflow-y-scroll">
-                <div class="mt-10 mb-8 grid-rows-auto gap-6 grid grid-cols-3 mr-10"> <!--Announcements grid-->
-                    {% for announcement in announcements %}
-                    <div class="border-black border-2 bg-white rounded-xl h-60 p-5">
-                        <h1 class="text-2xl ">{{ announcement['title'] }}</h1> <!--Heading for announcement-->
-                        <br>
-                        <p>{{ announcement['announcementText'] }}</p> <!--Description of break-->
-                    </div>
 
-                    {% endfor %}
-                    
-                </div>
+
+                <input type="text" placeholder="Insert Title Here" name="titleBox" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-5/6">
+
+                <button class="ml-8 border-black border rounded-xl text-xl mt-8 w-36 bg-blue-300 h-12">Post</button>
+             
+
             </div>
-            
+
+            <textarea class="mt-10" name="chatBox" placeholder="Insert Description Here" rows="15" cols="120"></textarea>
+
         </div>
+        </form>        
         
         
 

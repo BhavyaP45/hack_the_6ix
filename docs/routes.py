@@ -8,6 +8,17 @@ def get_db_connection():
 
 @app.route("/announcements", methods=['POST', 'GET'])
 def announcements_page():
+
+    conn = get_db_connection()
+    announcements = conn.execute('SELECT * FROM announcements').fetchall()
+    conn.close()   
+        
+    return render_template("announcements.html", announcements = announcements)
+
+@app.route("/announcements-create", methods=['POST', 'GET'])
+
+def announcements_create_page():
+
     if request.method == "POST":
         title = request.form["titleBox"]
         announcementText = request.form["chatBox"]
@@ -16,12 +27,9 @@ def announcements_page():
                         (title, announcementText))
         conn.commit()
         conn.close()
-
-    conn = get_db_connection()
-    announcements = conn.execute('SELECT * FROM announcements').fetchall()
-    conn.close()   
+        return redirect(url_for('announcements_page'))
         
-    return render_template("announcements.html", announcements = announcements)
+    return render_template("createAnnouncement.html")
 
 
 @app.route("/dashboard", methods=['POST', 'GET'])
@@ -31,8 +39,11 @@ def dashboard_page():
 
 @app.route("/tasks", methods=['POST', 'GET'])
 def tasks_page():
-        
-    return render_template("tasks.html")
+
+    conn = get_db_connection()
+    tasks = conn.execute('SELECT * FROM tasks').fetchall()
+    conn.close()           
+    return render_template("tasks.html",tasks = tasks)
 
 @app.route("/checkin", methods=['POST', 'GET'])
 def checkin_page():
