@@ -11,7 +11,7 @@ def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
         try:
-            user_to_create = User(username = form.username.data, email_address = form.email_address.data, password = form.password.data, is_manager = False)
+            user_to_create = User(username = form.username.data, email_address = form.email_address.data, password = form.password.data, is_manager = form.is_manager_field.data)
             with app.app_context():
                 db.session.add(user_to_create)
                 db.session.commit()

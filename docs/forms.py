@@ -24,6 +24,7 @@ class RegisterForm(FlaskForm):
     email_address = StringField(label = "Email", validators = [Email(), DataRequired()])
     password = PasswordField(label = "Password", validators = [Length(min=6), DataRequired()])
     password_confirm = PasswordField(label = "Password Confirmation", validators = [EqualTo('password'), DataRequired()])
+    is_manager_field = BooleanField(label = "Are you a manager for your company?")
     submit = SubmitField(label = "Create Account")
 
 class LoginForm(FlaskForm): 
