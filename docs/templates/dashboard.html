@@ -11,7 +11,7 @@ Dashboard
 {% if current_user.is_authenticated %} <!--Flask-login can access current user without needing to go through render template-->
 <p>{{current_user.username}}</p>
 <a href="{{url_for('logout_page')}}" class="">
-    <p class="text-white hover:text-blue-300">Logout</p>
+    <p class="text-green-600 hover:text-blue-300">Logout</p>
 </a>
 
 {% endif %}

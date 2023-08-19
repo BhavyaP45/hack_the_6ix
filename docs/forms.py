@@ -31,5 +31,3 @@ class LoginForm(FlaskForm):
     password = PasswordField(label = "Password", validators = [Length(min=6), DataRequired()])
     submit = SubmitField(label = "Login")
 
-class LogoutForm(FlaskForm): 
-    submit = SubmitField(label = "Login")

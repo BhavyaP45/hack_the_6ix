@@ -3,24 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com%22%3E/"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <title>
         {%block title%}
         {% endblock %}
     </title>
-    <!--
     <style type="text/tailwindcss">
         @layer utilities {
-          p {
-            @apply text-sm
-          }
-        }
+    .alert {
+        @apply border-2 w-fit mx-auto my-3 px-2 rounded-md text-white
+      }
+      .alert button {
+        @apply px-2 rounded-sm block mx-auto mb-2
+      }
+      .error {
+        @apply border-red-600 bg-red-400  
+      }
+      .error button {
+        @apply bg-red-600 
+      }
+      .success {
+        @apply border-green-600 bg-green-400
+      }
+      .success button {
+        @apply bg-green-600
+      }
+    }
     </style>
-    -->
+    
     {%block head%} {%endblock %}
 </head>
 <body>
-    {% block body %}
-    {% endblock %}
+    <!--Flashed messages from flask-->
+    {% with messages = get_flashed_messages(with_categories = True) %} <!--Multiple categories of messages-->
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert {{ category }}">
+                <p class = "text-center">{{message}}</p>
+                <button>Close</button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+      <script>
+        const alerts = document.querySelectorAll(".alert")
+        console.log(alerts)
+        const close_button = document.querySelectorAll(".alert button")
+        console.log(close_button)
+        close_button.forEach(element => {
+          console.log(element.parentElement)
+          element.addEventListener("click", e => {
+            element.parentElement.classList.add("hidden")
+          })
+        });
+      </script>
+      
+    {% block body %}{% endblock %}
 </body>
