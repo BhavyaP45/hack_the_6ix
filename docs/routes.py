@@ -1,5 +1,6 @@
 
-from docs import app, Flask, sqlite3, request, render_template, redirect, db, url_for, flash, login_user, logout_user, bcrypt, current_user
+from docs import app, Flask, sqlite3, request, render_template, redirect, db, url_for, flash
+from docs import login_user, logout_user, bcrypt, current_user, login_required
 from docs.forms import RegisterForm, LoginForm
 from docs.models import User, Task
 
@@ -77,7 +78,6 @@ def announcements_page():
     return render_template("announcements.html", announcements = announcements)
 
 @app.route("/announcements-create", methods=['POST', 'GET'])
-
 def announcements_create_page():
 
     if request.method == "POST":
@@ -95,14 +95,18 @@ def announcements_create_page():
 
 @app.route("/assignTasks", methods=['POST', 'GET'])
 def assign_tasks_page():
+    #If the User fills out the form
     if request.method == "POST":
         user_name = request.form["nameBox"]
-        email = request.form["emailBox"]
         title = request.form["taskName"]
-        
+        task_type = request.form["taskType"]
+        subtask_1 = request.form["subtask1"]
+        subtask_2 = request.form["subtask2"]
         assigned_user =  User.query.filter_by(username = user_name).first()
+
         if assigned_user:
-            task = Task(assigned_to = assigned_user.id, title = title)
+            task = Task(assigned_to = assigned_user.id, title = title, 
+                        subtask_1 = subtask_1, subtask_2 = subtask_2, task_type = task_type)
             with app.app_context():
                 db.session.add(task)
                 db.session.commit()
@@ -112,10 +116,11 @@ def assign_tasks_page():
     
     return render_template("create_task.html")
         
-
+@login_required #Execute before setting up the route 
 @app.route("/tasks", methods=['POST', 'GET'])
 def tasks_page():
-    tasks = Task.query.filter_by(assigned_to = current_user.id)
+    if current_user.is_authenticated:
+        tasks = Task.query.filter_by(assigned_to = current_user.id)
     return render_template("tasks.html", tasks = tasks)
 
 @app.route("/checkin", methods=['POST', 'GET'])

@@ -28,5 +28,8 @@ class User(db.Model, UserMixin): #Use UserMixin class to add prexisting methods
     
 class Task(db.Model):
    id = db.Column(db.Integer(), primary_key = True)
-   title =  db.Column(db.String(length = 45), nullable = False, unique = True)
-   assigned_to = db.Column(db.Integer(), db.ForeignKey("user.id"))
+   title =  db.Column(db.String(length = 45), nullable = False)
+   assigned_to = db.Column(db.Integer(), db.ForeignKey("user.id")) 
+   task_type = db.Column(db.String(length = 45), nullable = False)
+   subtask1 = db.Column(db.String(length = 100))
+   subtask2 = db.Column(db.String(length = 100))
