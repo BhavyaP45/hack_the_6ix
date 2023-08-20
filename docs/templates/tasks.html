@@ -21,15 +21,20 @@ Tasks
             <div class="mt-10 mb-8 grid-rows-auto gap-6 grid grid-cols-3 mr-10"> <!--Tasks grid-->
                 {% for task in tasks %}
                 <div class="border-b_grey border-2 bg-white rounded-xl h-60 p-5">
+                  <div class="flex-row flex justify-between ">
                     <h1 class="text-2xl font-semibold ">{{ task.title }}</h1> <!--Heading for each task-->
-                    <br>
-                    
-                    <p>{{ task.task_type }}</p> <!--Task category-->
-                    <p>{{ task.subtask1 }}</p> <!--Subtasks -->
-                    <p>{{ task.subtask2 }}</p> <!--Subtasks -->
                     <form method = "POST" >
                       <input type = "checkbox" name = "{{task.id}}", value = "{{task.id}}">
                     </form>
+                  </div>
+
+                    
+                    <p>{{ task.task_type }}</p> <!--Task category-->
+                    <h4 class="font-semibold mt-4">Subtasks</h4>
+                    <ul>
+                      <li class="bg-inner_grey rounded-full px-3 mb-3">{{ task.subtask1 }}</li> <!--Subtasks -->
+                      <li class="bg-inner_grey rounded-full px-3">{{ task.subtask2 }}</li> <!--Subtasks -->
+                    </ul>
                 </div>
 
                 {% endfor %}
