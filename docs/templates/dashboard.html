@@ -8,11 +8,44 @@ Dashboard
 {% endblock %}
 
 {% block body %}
-{% if current_user.is_authenticated %} <!--Flask-login can access current user without needing to go through render template-->
-<p>{{current_user.username}}</p>
-<a href="{{url_for('logout_page')}}" class="">
-    <p class="text-green-600 hover:text-blue-300">Logout</p>
-</a>
+<div class="ml-4 mt-6 h-screen w-2/4 flex flex-col "> <!--Middle page container-->
+    <h1 class="text-5xl font-bold">Dashboard</h1> <!--title-->
+    <div class="flex flex-row">
+        <input type="text" id="fname" value="Search Tasks" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-8/12"> <!--Search announcements input text box-->
+        {% if current_user.is_manager %}
+        <a href="{{url_for('announcements_create_page')}}"><div class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl h-12 border-black w-36 text-center">+</div></a> <!--Plus button-->
+        {% endif %}
+    </div>
+    <div class="overflow-y-auto h-72 w-5/6 align-middle bg-white mt-3 px-6 relative rounded-lg">
+        <div class="text-3xl sticky bg-white top-0 font-semibold py-3">Today's Tasks</div>
+            {% for task in tasks %}
+            <div class="  w-full border-b-2 border-b-b_grey flex flex-row bg-white items-center "> <!--Tasks flex-->
+                <img src="{{url_for('static', filename='images/bi_list-task.svg')}}" class="h-10 border-b_grey border-2 p-1 rounded-md mx-6">
+                <div class="flex flex-col pt-3">
+                    <h1 class="text-xl font-bold ">{{ task.title }}</h1> <!--Heading for each task-->
+                    <p class="text-md mb-2">{{ task.task_type }}</p> <!--Task category-->
+                </div>        
+            </div>
 
-{% endif %}
+            {% endfor %}
+            
+    </div>
+
+    <div class = "grid grid-cols-2 w-full mt-4">
+        <img src="{{url_for('static', filename='images/quiz_preview.svg')}}" class="  rounded-md mx-6">
+        <img src="{{url_for('static', filename='images/resource_preview.svg')}}" class=" rounded-md mx-6">
+
+    </div>
+</div>
+    
+<div class="ml-4 pt-5 h-screen w-1/4 flex flex-col overflow-y-auto bg-white relative"> <!--Side announcement container-->
+    <h2 class="font-bold my-3 ms-2 text-2xl pt-3 sticky top-0 bg-white ">Announcements</h2>
+    {% for announcement in announcements %}
+    <div class = "border-2 bg-inner_grey border-b_grey py-3 px-2 mb-4 rounded-md mx-2">
+        <p class="font-bold text-xl text-announce_dash">{{ announcement.title }}</p>
+        <p class = "text-announce_body">{{ announcement.announcementText }}</p>
+    </div>
+    {% endfor %}
+</div>
+<d
 {% endblock %}

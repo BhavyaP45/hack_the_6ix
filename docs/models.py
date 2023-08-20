@@ -11,8 +11,9 @@ class User(db.Model, UserMixin): #Use UserMixin class to add prexisting methods
     email_address = db.Column(db.String(), unique = True, nullable = False)
     password_hash = db.Column(db.String(), nullable = False)
     is_manager = db.Column(db.Boolean())
+    company = db.Column(db.String(length = 45), nullable = False)
     tasks = db.relationship('Task', backref = "assigned_tasks", lazy = True)
-
+    
     #Create a password property
     @property
     def password(self):
@@ -33,3 +34,4 @@ class Task(db.Model):
    task_type = db.Column(db.String(length = 45), nullable = False)
    subtask1 = db.Column(db.String(length = 100))
    subtask2 = db.Column(db.String(length = 100))
+  

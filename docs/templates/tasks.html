@@ -1,19 +1,43 @@
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HTML 5 Boilerplate</title>
-  </head>
-  <body>
-    
-{% block body %}
-{% for task in tasks %}
-<p>{{ task.title }}</p>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block title %}
+Tasks
 {% endblock %}
 
-  </body>
-</html>
+{% block head %} 
+{% endblock %}
+
+{% block body %}
+
+    <div class="ml-4 mt-6 h-screen w-3/4 flex flex-col"> <!--Right-side of page container for tasks-->
+        <h1 class="text-5xl font-bold">Tasks</h1> <!--Tasks title-->
+        <div class="flex flex-row">
+            <input type="text" id="fname" value="Search Tasks" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-8/12"> <!--Search announcements input text box-->
+            {% if current_user.is_manager %}
+            <a href="{{url_for('assign_tasks_page')}}"><div class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl h-12 border-black w-36 text-center">+</div></a> <!--Plus button-->
+            {% endif %}
+        </div>
+        <div class="overflow-y-scroll">
+            <div class="mt-10 mb-8 grid-rows-auto gap-6 grid grid-cols-3 mr-10"> <!--Tasks grid-->
+                {% for task in tasks %}
+                <div class="border-b_grey border-2 bg-white rounded-xl h-60 p-5">
+                    <h1 class="text-2xl font-semibold ">{{ task.title }}</h1> <!--Heading for each task-->
+                    <br>
+                    
+                    <p>{{ task.task_type }}</p> <!--Task category-->
+                    <p>{{ task.subtask1 }}</p> <!--Subtasks -->
+                    <p>{{ task.subtask2 }}</p> <!--Subtasks -->
+                    <form method = "POST" >
+                      <input type = "checkbox" name = "{{task.id}}", value = "{{task.id}}">
+                    </form>
+                </div>
+
+                {% endfor %}
+                
+            </div>
+        </div>
+        
+    </div>
+        
+{% endblock %}
+    

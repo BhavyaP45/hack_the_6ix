@@ -1,89 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
-    <title>EmpowerU</title>
-    <!--
-    <style type="text/tailwindcss">
-        @layer utilities {
-          p {
-            @apply text-sm
-          }
-        }
-    </style>
-    -->
-    
-</head>
-<body class="bg-gray-200 ">
-    <div class="flex flex-row h-screen"> <!--Entire container for website-->
-        <div class="bg-white rounded-3xl border-solid border-8 m-2 w-1/4 p-6 flex flex-col"> <!--Left box-->
-            <div class="flex flex-row">
-                <img src=""  alt="EmpowerU Logo"> <!--EmpowerU Logo-->      
-                <h1 class="text-xl font-bold ml-6">EmpowerU</h1> <!--EmpowerU Title-->
-            </div>
-            <div class="flex flex-row">
-                <div class="w-10 h-10 rounded-full mt-5 bg-slate-300"></div> <!--Profile Photo-->
-                <div>
-                    <p class="mt-5 ml-4 font-semibold">Name here</p> <!--Name-->
-                    <p class="ml-4 text-xs text-gray-400">Walmart Inc.</p> <!--Company Name-->
-                </div>
-            </div>
-            <div class="flex flex-row mt-5 justify-between"> <!--Container for num of announcements-->
-                <p class="text-sm text-gray-400">Announcements</p> 
-                <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm">10</p> 
-            </div>
-            <div class="mt-2 text-gray-400 flex flex-row justify-between"> <!--Container for num of check-ins-->         
-                <p class="text-sm">Check-ins</p>
-                <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm">4</p>
-            </div>
-            <div class="rounded-full mt-3 h-1 bg-slate-300"></div> <!--Line divider-->
-            <div class="text-gray-400 text-sm"> <!--Label for "menu"-->
-                <p class="mt-3">Menus</p>
-            </div>
-            <div class="flex flex-col gap-y-3 mt-5 ml-6">
-                <a href="">Dashboard</a> <!--Dashboard button-->
-                <a href="">Announcements</a> <!--Announcements button-->
-                <a href="">Tasks</a> <!--Tasks button-->
-                <a href="">Check-ins & Resources</a> <!--Check-ins & resources button-->
-            </div>
-            <button class="rounded-full h-10 bg-yellow-200 mt-auto">Log In</button>
-        </div>
-        <div class="ml-4 mt-6 h-screen w-3/4 flex flex-col"> <!--Right-side of page container for announcements-->
-            <h1 class="text-5xl font-bold">Dashboard</h1> <!--Announcements title-->
-            <div class="flex flex-row">
-                <input type="text" id="fname" value="Search Announcements" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-8/12"> <!--Search announcements input text box-->
-                <a href="/announcements-create"><div class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl h-12 border-black w-36 text-center">+</div></a> <!--Plus button-->
-            </div>
-            <div class="overflow-y-scroll">
-                <div class="mt-10 mb-8 grid-rows-auto gap-6 grid grid-cols-3 mr-10"> <!--Announcements grid-->
-                    {% for announcement in announcements %}
-                    <div class="border-black border-2 bg-white rounded-xl h-60 p-5">
-                        <h1 class="text-2xl ">{{ announcement['title'] }}</h1> <!--Heading for announcement-->
-                        <br>
-                        <p>{{ announcement['announcementText'] }}</p> <!--Description of break-->
-                    </div>
+{% extends 'base.html' %}
 
-                    {% endfor %}
-                    
+{% block title %}
+Announcements
+{% endblock %}
+
+{% block head %} 
+{% endblock %}
+
+{% block body %}
+
+    <div class="ml-4 mt-6 h-screen w-3/4 flex flex-col bg-main_bg"> <!--Right-side of page container for announcements-->
+        <h1 class="text-5xl font-bold">Announcements</h1> <!--Announcements title-->
+        <div class="flex flex-row">
+            <input type="text" id="fname" value="Search Announcements" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-b_main w-8/12 text-announce_dash"> <!--Search announcements input text box-->
+            {% if current_user.is_manager %}
+            <a href="{{url_for('announcements_create_page')}}"><div class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl text-announce_dash h-12 border-b_main w-36 text-center">+</div></a> <!--Plus button-->
+            {% endif %}
+        </div>
+        <div class="overflow-y-scroll">
+            <div class="mt-10 mb-8 grid-rows-auto gap-6 grid grid-cols-3 mr-10"> <!--Announcements grid-->
+                {% for announcement in announcements %}
+                <div class=" border-2 border-b_main rounded-xl h-60 p-5 bg-white pt-3">
+                    <h1 class="text-2xl font-semibold text-announce_dash">{{ announcement['title'] }}</h1> <!--Heading for announcement-->
+                    <br>
+                    <p class="text-announce_body">{{ announcement['announcementText'] }}</p> <!--Description of break-->
                 </div>
+
+                {% endfor %}
+                
             </div>
-            
         </div>
         
-        
-
-
-
-
     </div>
-
+        
+{% endblock %}
     
 
-</body>
 
 
-</html>
+
+
+    

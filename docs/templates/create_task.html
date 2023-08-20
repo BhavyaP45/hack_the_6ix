@@ -14,47 +14,47 @@ Create Tasks
             <input type="text" id="fname" placeholder="Search Tasks" name="fname" class="h-12 mt-8 border-solid border-2 rounded-2xl border-black w-8/12"> <!--Search tasks input text box-->
             <button class="ml-12 mt-8 bg-white font-bold text-3xl border-solid border-2 rounded-2xl h-12 border-black w-2/12">+</button> <!--Plus button-->
         </div>
-        <div class="overflow-y-scroll">
-            <div class="bg-purple-100 h-screen w-11/12 mb-10 mr-10 border-solid rounded-xl border border-black">
+        <div class="overflow-y-auto">
+            <div class="bg-task_back h-screen w-11/12 mb-10 mr-10 rounded-xl pb-2">
                 <div class="flex justify-center">
 
-                    <h1 class="text-3xl m-5 text-purple-700 font-bold">Create Task</h1>
+                    <h1 class="text-3xl m-5 text-announce_dash font-bold">Create Task</h1>
                    
                 </div>
 
-                <div class="flex flex-row gap-7 h-screen p-8"> <!--Division for bottom form-->
-                    <div class="border-solid border-black border rounded-xl h-5/6 w-1/2">
+                <div class="flex flex-row gap-5 h-screen pt-2"> <!--Division for bottom form-->
+                    <div class=" rounded-xl h-5/6 w-1/2">
                         <form class="flex flex-col gap-4" method = "POST">
                             <div class="flex flex-row">
                                 <div class="flex flex-col ml-4 mt-5">
-                                    <h3 class="mb-3">Name</h3> <!--Name text box-->
+                                    <h3 class="mb-3 text-announce_dash font-semibold">Name</h3> <!--Name text box-->
                                     <input name="nameBox" id = "nameBox" type="text" class="rounded-2xl">
                                 </div>
                             </div>
                             <br>
                             <div class="flex flex-row">
                                 <div class="flex flex-col ml-4 mt-5">
-                                    <h3 class="mb-3">Task Name</h3> <!--Task name text box-->
+                                    <h3 class="mb-3 text-announce_dash font-semibold">Task Name</h3> <!--Task name text box-->
                                     <input type="text" name = "taskName" class="rounded-2xl">
                                 </div>
                                 <div class="flex flex-col ml-4 mt-5">
-                                    <h3 class="mb-3">Task Type</h3> <!--Task type text box-->
+                                    <h3 class="mb-3 text-announce_dash font-semibold">Task Type</h3> <!--Task type text box-->
                                     <input type="text" name="taskType" class="rounded-2xl">
                                 </div>
                             </div>
                             <div class="p-5">
                                 <br>
-                                <label>Subtasks</label>
+                                <label class=" text-announce_dash font-semibold">Subtasks</label>
                                 <br>
                                 <br>
-                                <div class="mr-3 bg-gray-100 w-full h-72 overflow-y-scroll p-4 rounded-2xl">
+                                <div class="mr-3 bg-gray-100 w-full h-fit overflow-y-auto p-4 rounded-2xl">
                                     <h3>Subtask 1</h3> <!--subtask 1 text box-->
                                     <input type="text" name="subtask1" class="w-full mt-3 rounded-full">
                                     <h3 class="mt-3">Subtask 2</h3> <!--Subtask 2 text box-->
                                     <input type="text" name="subtask2" class="w-full mt-3 rounded-full">
                                 </div>
                             </div>
-                            <input type = "submit" name="createTask" value = "Create Task">
+                            <input type = "submit" name="createTask" value = "Create Task" class="rounded-full bg-yellow-200 w-fit px-3 py-1 font-semibold mx-auto">
                         </form>
                     </div>  
 

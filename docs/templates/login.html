@@ -1,28 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'register_base.html' %}
 
 {% block title %}
-Login
+Register for EmpowerU
 {% endblock %}
 
 {% block head %} 
 {% endblock %}
 
 {% block body %}
-{%if not current_user.is_authenticated %}
-<h1 class="text-center text-3xl" >Please Login to your Account</h1>
-<form method = "POST" class="form-register container w-60 mx-auto">
-    {{ form.hidden_tag()}} <!--Prevents Cross Site Request Forgery -->
-    <div class="flex-col flex">
-        {{ form.username.label(class=" ms-5 mt-2") }}
-        {{ form.username(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Username") }}
-    </div>
-    <div class="flex-col flex">
-        {{ form.password.label(class=" ms-5 mt-2") }}
-        {{ form.password(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Password") }}
-    </div>
+<div class = "h-screen w-full bg-gradient-to-r from-pink-100 to-blue-400 flex items-center justify-center">
+    <div class="bg-white p-8 shadow-2xl rounded-md">
+        <div class="mx-auto my-2">
+            <img src="{{url_for('static', filename = 'images/EmpowerULogo.svg')}}" alt="EmpowerU Logo" class="mx-auto block h-20 w-20">
+        </div>
+        <h1 class="text-center text-3xl font-semibold my-3" >Please Login to your Account</h1>
+        <form method = "POST" class="form-register container w-full mx-auto">
+            {{ form.hidden_tag()}} <!--Prevents Cross Site Request Forgery -->
+            <div class="grid grid-cols-3 items-center font-semibold">
+                {{ form.username.label(class=" text-lg text-center mt-2 ") }}
+                {{ form.username(class = "rounded-md col-span-2 bg-slate-200 text-black my-3 me-5", placeholder = "Username") }}
+                {{ form.password.label(class=" text-lg text-center mt-2") }}
+                {{ form.password(class = "rounded-md bg-slate-200 text-black my-3 me-5 col-span-2", placeholder = "Password") }}
+            </div>
+        
+            {{ form.submit(class = "font-bold px-5 py-2 mt-2 bg-yellow-200 shadow-sm rounded-full mx-auto block  hover:bg-yellow-300")}}
+        </form>
+        <p class="mt-4">Don't Have an Account? <a class="text-md mt-3 text-blue-500 hover:underline" href="{{url_for('register_page')}}">Register Now</a>
+        </p>
+        </div>
+</div>
 
-    {{ form.submit(class = "mx-auto block bg-gray-700 hover:bg-gray-800 py-1 px-3 rounded-md mt-4")}}
-</form>
 
-{% endif %}
+
 {% endblock %}

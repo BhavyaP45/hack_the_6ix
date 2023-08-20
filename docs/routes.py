@@ -9,38 +9,40 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
 @app.route("/register", methods = ["POST", "GET"])
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        try:
-            user_to_create = User(username = form.username.data, email_address = form.email_address.data, password = form.password.data, is_manager = form.is_manager_field.data)
+        
+            user_to_create = User(username = form.username.data, email_address = form.email_address.data, 
+                                  password = form.password.data, is_manager = form.is_manager_field.data, company = form.company.data)
             with app.app_context():
                 db.session.add(user_to_create)
                 db.session.commit()
                 login_user(user_to_create)
         
             return redirect(url_for("dashboard_page"))
-        
-        except:
-            flash(f'There was an error with creating a user: {err_msg}', category = "error")
     
-    elif form.errors != {}: #.errors Stores all the errors from the form (If there are no errors from the validations)
+    if form.errors != {}: #.errors Stores all the errors from the form (If there are no errors from the validations)
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category = "error")
 
     return render_template("register.html", form = form)
 
+@login_required #Execute before setting up the route 
 @app.route("/dashboard", methods = ["POST", "GET"])
 def dashboard_page():
+    if current_user.is_manager:
+        tasks = Task.query.all()
+    else:
+        tasks = Task.query.filter_by(assigned_to = current_user.id)
     
-    return render_template("dashboard.html")
+    conn = get_db_connection() #connects to database to obtain announcements
+    announcements = conn.execute('SELECT * FROM announcements ORDER BY id DESC').fetchall()
+    conn.close()   
+    return render_template("dashboard.html", tasks = tasks, announcements=announcements)
 
+@app.route("/", methods = ["GET", "POST"]) #Takes the User straight to login from index
 @app.route('/login', methods = ["GET", "POST"])
 def login_page():
     form = LoginForm()
@@ -61,22 +63,24 @@ def login_page():
 
     return render_template('login.html', form = form)
 
+@login_required #Execute before setting up the route 
 @app.route('/logout', methods = ["POST","GET"])
 def logout_page():
     logout_user()
     flash("Success", category= "success")
-    return redirect(url_for("index"))
+    return redirect(url_for("login_page"))
 
-
+@login_required #Execute before setting up the route 
 @app.route("/announcements", methods=['POST', 'GET'])
 def announcements_page():
 
     conn = get_db_connection()
-    announcements = conn.execute('SELECT * FROM announcements').fetchall()
+    announcements = conn.execute('SELECT * FROM announcements ORDER BY id DESC').fetchall()
     conn.close()   
         
     return render_template("announcements.html", announcements = announcements)
 
+@login_required #Execute before setting up the route 
 @app.route("/announcements-create", methods=['POST', 'GET'])
 def announcements_create_page():
 
@@ -92,7 +96,7 @@ def announcements_create_page():
         
     return render_template("createAnnouncement.html")
 
-
+@login_required #Execute before setting up the route 
 @app.route("/assignTasks", methods=['POST', 'GET'])
 def assign_tasks_page():
     #If the User fills out the form
@@ -106,7 +110,7 @@ def assign_tasks_page():
 
         if assigned_user:
             task = Task(assigned_to = assigned_user.id, title = title, 
-                        subtask_1 = subtask_1, subtask_2 = subtask_2, task_type = task_type)
+                        subtask1 = subtask_1, subtask2 = subtask_2, task_type = task_type)
             with app.app_context():
                 db.session.add(task)
                 db.session.commit()
@@ -120,8 +124,11 @@ def assign_tasks_page():
 @app.route("/tasks", methods=['POST', 'GET'])
 def tasks_page():
     if current_user.is_authenticated:
-        tasks = Task.query.filter_by(assigned_to = current_user.id)
-    return render_template("tasks.html", tasks = tasks)
+        tasks = Task.query.filter_by(assigned_to = current_user.id)            
+        return render_template("tasks.html", tasks = tasks)
+
+            
+    return redirect(url_for("register_page"))
 
 @app.route("/checkin", methods=['POST', 'GET'])
 def checkin_page():

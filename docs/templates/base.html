@@ -9,6 +9,23 @@
         {%block title%}
         {% endblock %}
     </title>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              inner_grey: '#eef0f3',
+              b_grey: '#d4d2e3',
+              announce_dash: '#5D5A88',
+              announce_body: '#9795b5',
+              main_bg: '#eef0f3',
+              task_back: '#cdcedc',
+              nav_blue: '#DAE1FB'
+            }
+          }
+        }
+      }
+    </script>
     <style type="text/tailwindcss">
         @layer utilities {
     .alert {
@@ -29,44 +46,68 @@
       .success button {
         @apply bg-green-600
       }
+      .notification_container:hover .notification {
+        @apply text-orange-400
+      }
+      .notification_container:hover .ping {
+        @apply bg-orange-400 text-white
+      }
     }
+    
     </style>
     
     {%block head%} {%endblock %}
 </head>
-<body class="flex flex-row h-screen">
+<body class="flex flex-row h-screen bg-main_bg">
   <div class="bg-white rounded-3xl border-solid border-8 m-2 w-1/4 p-6 flex flex-col"> <!--Left box-->
     <div class="flex flex-row">
         <img src="{{url_for('static', filename='images/EmpowerULogo.svg')}}" alt="EmpowerU Logo"> <!--EmpowerU Logo-->
         <h1 class="text-xl font-bold ml-6">EmpowerU</h1> <!--EmpowerU Title-->
     </div>
     <div class="flex flex-row">
+      {% if current_user.is_authenticated %}
         <div class="w-10 h-10 rounded-full mt-5 bg-slate-300"></div> <!--Profile Photo-->
         <div>
-            <p class="mt-5 ml-4 font-semibold">Name here</p> <!--Name-->
-            <p class="ml-4 text-xs text-gray-400">Walmart Inc.</p> <!--Company Name-->
+            <p class="mt-5 ml-4 font-semibold">{{current_user.username}}</p> <!--Name-->
+            <p class="ml-4 text-xs text-gray-400">{{current_user.company}}</p> <!--Company Name-->
         </div>
+      {% endif %}
     </div>
-    <div class="flex flex-row mt-5 justify-between"> <!--Container for num of announcements-->
-        <p class="text-sm text-gray-400">Announcements</p> 
-        <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm">10</p> 
+    <div class="flex flex-row mt-5 justify-between notification_container  "> <!--Container for num of announcements-->
+        <p class="text-sm text-gray-400 notification transition-colors ease-out duration-200">Announcements</p> 
+        <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm ping transition-colors ease-out duration-200">10</p> 
     </div>
-    <div class="mt-2 text-gray-400 flex flex-row justify-between"> <!--Container for num of check-ins-->         
-        <p class="text-sm">Check-ins</p>
-        <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm">4</p>
+    <div class="mt-2 text-gray-400 flex flex-row justify-between notification_container"> <!--Container for num of check-ins -->         
+        <p class="text-sm notification transition-colors ease-out duration-200">Check-ins</p>
+        <p class="bg-gray-300 text-slate-500 text-center w-5 h-5 text-sm ping transition-colors ease-out duration-200">4</p>
     </div>
     <div class="rounded-full mt-3 h-1 bg-slate-300"></div> <!--Line divider-->
     <div class="text-gray-400 text-sm"> <!--Label for "menu"-->
         <p class="mt-3">Menus</p>
     </div>
-    <div class="flex flex-col gap-y-3 mt-5 ml-6">
-        <a href="{{url_for('dashboard_page')}}">Dashboard</a> <!--Dashboard button-->
-        <a href="{{url_for('announcements_page')}}">Announcements</a> <!--Announcements button-->
-        <a href="">Tasks</a> <!--Tasks button-->
-        <a href="">Check-ins & Resources</a> <!--Check-ins & resources button-->
+    <div class="flex flex-col gap-y-3 mt-5 w-full">
+          <a href="{{url_for('dashboard_page')}}" class="hover:bg-nav_blue">Dashboard</a> <!--Dashboard button-->
+        <a href="{{url_for('announcements_page')}}" class="hover:bg-nav_blue">Announcements</a> <!--Announcements button-->
+        <a href="{{url_for('tasks_page')}}" class="hover:bg-nav_blue">Tasks</a> <!--Tasks button-->
+        <a href="" class="hover:bg-nav_blue">Check-ins & Resources</a> <!--Check-ins & resources button-->
     </div>
-    <button class="rounded-full h-10 bg-yellow-200 mt-auto">Log In</button>
+    <a href = "{{url_for('logout_page')}}" class="text-center font-semibold w-fit py-1 px-6 bg-yellow-200 mx-auto rounded-full mt-auto">Logout</a>
 </div>
+<!--Add flashed messages to the top-->
+<div class="absolute left-0 right-0 top-0">
+  {% with messages = get_flashed_messages(with_categories = True) %} <!--Multiple categories of messages-->
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+      <p class = "text-center">{{message}}</p>
+      <button>Close</button>
+    </div>
+    {% endfor %}
+  {% else %}
+  {% endif %}
+  {% endwith %}
+</div>
+
 
     <!--Add sidebar to base HTML-->
 

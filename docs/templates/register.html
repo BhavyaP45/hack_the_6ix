@@ -1,40 +1,62 @@
-{% extends 'base.html' %}
+{% extends 'register_base.html' %}
 
 {% block title %}
-Register
+Register for EmpowerU
 {% endblock %}
 
 {% block head %} 
 {% endblock %}
 
 {% block body %}
-<form method = "POST" class="form-register container w-60 mx-auto">
-    {{ form.hidden_tag()}} <!--Prevents Cross Site Request Forgery -->
-    <h1>Please Create your Account</h1>
-    <div class="flex-col flex">
-        {{ form.username.label(class=" ms-5 mt-2") }}
-        {{ form.username(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Username") }}
+    <div class = "h-screen w-screen ">
+        <div class="absolute left-0 right-0 top-0">
+            {% with messages = get_flashed_messages(with_categories = True) %} <!--Multiple categories of messages-->
+            {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert {{ category }}">
+                <p class = "text-center">{{message}}</p>
+                <button>Close</button>
+              </div>
+              {% endfor %}
+            {% else %}
+            {% endif %}
+            {% endwith %}
+          </div>
+        <form method = "POST" class="form-register container w-60 mx-auto">
+            {{ form.hidden_tag()}} <!--Prevents Cross Site Request Forgery -->
+            <h1>Please Create your Account</h1>
+            <div class="flex-col flex">
+                {{ form.username.label(class=" ms-5 mt-2") }}
+                {{ form.username(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Username") }}
+            </div>
+        
+            <div class="flex-col flex">
+                {{ form.email_address.label(class=" ms-5 mt-2") }}
+                {{ form.email_address(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Email Address") }}
+            </div>
+        
+            <div class="flex-col flex">
+                {{ form.password.label(class=" ms-5 mt-2") }}
+                {{ form.password(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Password") }}
+            </div>
+        
+            <div class="flex-col flex">
+                {{ form.password_confirm.label(class=" ms-5 mt-2") }}
+                {{ form.password_confirm(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Confirm Password") }}
+            </div>
+        
+            <div class="flex-col flex">
+                {{ form.company.label(class=" ms-5 mt-2") }}
+                {{ form.company(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Company") }}
+            </div>
+    
+            <div class="flex-col flex">
+                {{ form.is_manager_field.label(class=" ms-5 mt-2") }}
+                {{ form.is_manager_field(class = "rounded-md bg-slate-300 text-black my-3") }}
+            </div>
+            {{ form.submit(class = "mx-auto block bg-gray-800 hover:bg-gray-900 py-1 px-3 rounded-md mt-4")}}
+        </form>
     </div>
-
-    <div class="flex-col flex">
-        {{ form.email_address.label(class=" ms-5 mt-2") }}
-        {{ form.email_address(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Email Address") }}
-    </div>
-
-    <div class="flex-col flex">
-        {{ form.password.label(class=" ms-5 mt-2") }}
-        {{ form.password(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Password") }}
-    </div>
-
-    <div class="flex-col flex">
-        {{ form.password_confirm.label(class=" ms-5 mt-2") }}
-        {{ form.password_confirm(class = "rounded-md bg-slate-300 text-black my-3", placeholder = "Confirm Password") }}
-    </div>
-
-    <div class="flex-col flex">
-        {{ form.is_manager_field.label(class=" ms-5 mt-2") }}
-        {{ form.is_manager_field(class = "rounded-md bg-slate-300 text-black my-3") }}
-    </div>
-    {{ form.submit(class = "mx-auto block bg-gray-800 hover:bg-gray-900 py-1 px-3 rounded-md mt-4")}}
-</form>
+    
 {% endblock %}
+</html>
